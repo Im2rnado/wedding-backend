@@ -18,7 +18,20 @@ const giftSchema = new mongoose.Schema({
     },
     category: {
         type: String,
-        enum: ['kitchen', 'home', 'bedroom', 'bathroom', 'experience', 'other'],
+        enum: [
+            'kitchen',
+            'home',
+            'bedroom',
+            'bathroom',
+            'feeding',
+            'clothing',
+            'nursery',
+            'bath',
+            'toys',
+            'travel',
+            'experience',
+            'other'
+        ],
         default: 'other'
     },
     priority: {
