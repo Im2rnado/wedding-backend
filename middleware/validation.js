@@ -109,7 +109,20 @@ const validateGift = [
         .withMessage('Description must be less than 500 characters'),
     body('category')
         .optional()
-        .isIn(['kitchen', 'home', 'bedroom', 'bathroom', 'experience', 'other'])
+        .isIn([
+            'kitchen',
+            'home',
+            'bedroom',
+            'bathroom',
+            'feeding',
+            'clothing',
+            'nursery',
+            'bath',
+            'toys',
+            'travel',
+            'experience',
+            'other'
+        ])
         .withMessage('Invalid category'),
     body('priority')
         .optional()
