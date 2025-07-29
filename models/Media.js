@@ -46,7 +46,7 @@ const mediaSchema = new mongoose.Schema({
     },
     isApproved: {
         type: Boolean,
-        default: true
+        default: false
     },
     uploadedAt: {
         type: Date,

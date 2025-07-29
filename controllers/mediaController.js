@@ -207,6 +207,10 @@ const uploadMedia = async (req, res) => {
         const fileUrl = await uploadToBunny(processedBuffer, filename, slug, category);
         console.log(`[${requestId}] Main file uploaded successfully: ${fileUrl}`);
 
+        // Determine approval status based on category
+        // Admin/official uploads are auto-approved, guest uploads need approval
+        const isApproved = category === 'official' || category === 'admin';
+
         // Save to database
         const media = new Media({
             weddingSlug: slug,
@@ -219,6 +223,7 @@ const uploadMedia = async (req, res) => {
             size: processedBuffer.length,
             mimeType: file.mimetype,
             category,
+            isApproved,
             metadata
         });
 
@@ -299,7 +304,7 @@ const uploadOfficialMedia = async (req, res) => {
         const fileUrl = await uploadToBunny(processedBuffer, filename, slug, 'official');
         console.log(`[${requestId}] Official file uploaded: ${fileUrl}`);
 
-        // Save to database
+        // Save to database (official uploads are auto-approved)
         const media = new Media({
             weddingSlug: slug,
             uploaderName: 'Admin',
@@ -311,6 +316,7 @@ const uploadOfficialMedia = async (req, res) => {
             size: processedBuffer.length,
             mimeType: file.mimetype,
             category: 'official',
+            isApproved: true,
             metadata
         });
 

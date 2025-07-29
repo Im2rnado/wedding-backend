@@ -243,15 +243,21 @@ const getRSVPList = async (req, res) => {
 const getMediaList = async (req, res) => {
     try {
         const { slug } = req.params;
-        const { category = 'all' } = req.query;
+        const { category = 'all', isApproved } = req.query;
         const requestId = req.requestId;
 
         console.log(`[${requestId}] WeddingController.getMediaList - Fetching media for wedding: ${slug}`);
-        console.log(`[${requestId}] Filter - Category: ${category}`);
+        console.log(`[${requestId}] Filter - Category: ${category}, IsApproved: ${isApproved}`);
 
         let filter = { weddingSlug: slug };
+
         if (category !== 'all') {
             filter.category = category;
+        }
+
+        // Filter by approval status if specified (public endpoint sets this to true)
+        if (isApproved !== undefined) {
+            filter.isApproved = isApproved === 'true' || isApproved === true;
         }
 
         const media = await Media.find(filter)
@@ -270,6 +276,7 @@ const getMediaList = async (req, res) => {
         console.error(`[${req.requestId}] Error details:`, {
             slug: req.params.slug,
             category: req.query.category,
+            isApproved: req.query.isApproved,
             message: error.message
         });
         res.status(500).json({ error: 'Failed to get media list' });
