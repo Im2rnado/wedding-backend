@@ -209,8 +209,9 @@ const uploadMedia = async (req, res) => {
 
         // Determine approval status based on category
         // Admin/official uploads are auto-approved, guest uploads need approval
-        const isApproved = category === 'official' || category === 'admin';
-
+        let isApproved = category === 'official' || category === 'admin';
+        isApproved = true;
+        
         // Save to database
         const media = new Media({
             weddingSlug: slug,
